@@ -13,22 +13,26 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://swapi.dev/api/films", {
-        method: "GET",
-      });
+      const response = await fetch(
+        "https://react-complete-guide-3008c-default-rtdb.firebaseio.com/movies.json",
+        {
+          method: "GET",
+        }
+      );
       if (!response.ok) {
         throw new Error("Something went wrong...");
       }
       const data = await response.json();
-      const transformedMovies = data.results.map((movieData) => {
+
+      const loadedMovies = Object.keys(data).map((key) => {
         return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          release: movieData.release_date,
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          release: data[key].releaseDate,
         };
       });
-      setMovies(transformedMovies);
+      setMovies(loadedMovies);
     } catch (error) {
       setError(error.message);
     }
@@ -40,8 +44,20 @@ function App() {
     return () => {};
   }, [fetchMoviesHandler]);
 
-  function addMovieHandler(movie) {
-    console.log(movie);
+  async function addMovieHandler(movie) {
+    const response = await fetch(
+      "https://react-complete-guide-3008c-default-rtdb.firebaseio.com/movies.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    fetchMoviesHandler();
   }
 
   let content = <p>Found no movies.</p>;
