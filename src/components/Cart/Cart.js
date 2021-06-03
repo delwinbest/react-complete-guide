@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
-import Modal from "../UI/Modal/Modal";
-import CartContext from "../../store/cart-context";
+import { useContext } from "react";
+
+import Modal from "../UI/Modal";
 import CartItem from "./CartItem";
 import classes from "./Cart.module.css";
+import CartContext from "../../store/cart-context";
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
@@ -15,7 +16,7 @@ const Cart = (props) => {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+    cartCtx.addItem(item);
   };
 
   const cartItems = (
@@ -28,20 +29,20 @@ const Cart = (props) => {
           price={item.price}
           onRemove={cartItemRemoveHandler.bind(null, item.id)}
           onAdd={cartItemAddHandler.bind(null, item)}
-        ></CartItem>
+        />
       ))}
     </ul>
   );
 
   return (
-    <Modal onClose={props.onCloseCart}>
+    <Modal onClose={props.onClose}>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
       <div className={classes.actions}>
-        <button className={classes["button--alt"]} onClick={props.onCloseCart}>
+        <button className={classes["button--alt"]} onClick={props.onClose}>
           Close
         </button>
         {hasItems && <button className={classes.button}>Order</button>}

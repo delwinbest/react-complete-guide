@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
-import Input from "../../UI/Input/Input";
+import { useRef, useState } from "react";
+
+import Input from "../../UI/Input";
 import classes from "./MealItemForm.module.css";
 
 const MealItemForm = (props) => {
@@ -20,6 +21,7 @@ const MealItemForm = (props) => {
       setAmountIsValid(false);
       return;
     }
+
     props.onAddToCart(enteredAmountNumber);
   };
 
@@ -29,7 +31,7 @@ const MealItemForm = (props) => {
         ref={amountInputRef}
         label="Amount"
         input={{
-          id: "amount_" + props.id,
+          id: "amount",
           type: "number",
           min: "1",
           max: "5",
