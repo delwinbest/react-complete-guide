@@ -1,16 +1,21 @@
 import { createSlice, PayloadAction, configureStore } from '@reduxjs/toolkit';
-import { DefaultRootState } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export interface CounterState {
   counter: number;
-  showCounter: Boolean;
+  showCounter: boolean;
 }
 
-const initialState: CounterState = { counter: 0, showCounter: true };
+export interface AuthState {
+  isAuthenticated: boolean;
+}
+
+const initialCounterState: CounterState = { counter: 0, showCounter: true };
+const initialAuthState: AuthState = { isAuthenticated: false };
 
 export const counterSlice = createSlice({
   name: 'counter',
-  initialState,
+  initialState: initialCounterState,
   reducers: {
     increment(state) {
       state.counter++;
@@ -27,10 +32,30 @@ export const counterSlice = createSlice({
   },
 });
 
-const store = configureStore({
-  reducer: counterSlice.reducer,
+export const authSlice = createSlice({
+  name: 'authentication',
+  initialState: initialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
+  },
 });
+
+const store = configureStore({
+  reducer: {
+    counter: counterSlice.reducer,
+    auth: authSlice.reducer,
+  },
+});
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
 // Action creators are generated for each case reducer function
 export const counterActions = counterSlice.actions;
+export const authActions = authSlice.actions;
 
 export default store;
