@@ -53,6 +53,7 @@ const store = configureStore({
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>(); // Export a hook that can be reused to resolve types
 
 // Action creators are generated for each case reducer function
 export const counterActions = counterSlice.actions;
