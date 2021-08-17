@@ -1,12 +1,8 @@
 import { Component } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  counterActions,
-  CounterState,
-  RootState,
-  useAppDispatch,
-} from '../store';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../store';
+import { counterActions } from '../store/counter-slice';
 
 import classes from './Counter.module.css';
 
